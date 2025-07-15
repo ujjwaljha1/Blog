@@ -3,6 +3,7 @@ const express = require('express');
 const { connectDB } = require('./Database/mongo');
 const cors = require('cors');
 const userRoutes = require('./route/UserRoute');
+const blogRoutes = require('./route/BlogRoute');
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/users', userRoutes);
+app.use('/api/blogs', blogRoutes);
 
 const PORT = process.env.PORT || 5000;
 
