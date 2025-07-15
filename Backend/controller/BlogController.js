@@ -52,6 +52,36 @@ const allPosts = async (req, res) => {
     }
 };
 
+
+const deletePost = async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({ message: "Blog ID is required" });
+    }
+
+    try {
+        const deletedBlog = await blog.findByIdAndDelete(id);
+        if (!deletedBlog) {
+            return res.status(404).json({ message: "Blog not found" });
+        }
+
+        res.status(200).json({
+            message: "Blog deleted successfully",
+            blog: {
+                id: deletedBlog._id,
+                title: deletedBlog.title,
+                description: deletedBlog.description,
+                contentLink: deletedBlog.contentLink,
+                createdAt: deletedBlog.createdAt,
+                updatedAt: deletedBlog.updatedAt
+            }
+        });
+    } catch (error) {
+        console.error("Error deleting blog:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
 module.exports = {
     post,
     allPosts
